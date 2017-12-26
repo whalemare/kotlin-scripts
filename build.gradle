@@ -1,0 +1,56 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.2.10'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+apply plugin: "kotlin"
+
+compileKotlin {
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile 'org.jfree:jfreechart:1.0.17'
+    compile 'args4j:args4j:2.0.26'
+    compile 'org.zeroturnaround:zt-exec:1.10'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
+    testCompile 'junit:junit:4.11'
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir 'kotlin'
+        }
+    }
+    test {
+        kotlin {
+            srcDir 'test/kotlin'
+        }
+        resources {
+            srcDir 'test/resources'
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.9"
+}
+
+task copyToLib(type: Copy) {
+    into "lib"
+    from configurations.runtime
+}
